@@ -1,0 +1,309 @@
+<Window x:Class="SafeStorageScanner.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Settings" Height="760" Width="1040" MinHeight="640" MinWidth="900"
+        Background="{DynamicResource AppBackground}">
+    <Window.Resources>
+        <Style x:Key="SettingsCard" TargetType="Border">
+            <Setter Property="Background" Value="{DynamicResource CardBackground}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderBrushSoft}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="12"/>
+            <Setter Property="Padding" Value="18"/>
+            <Setter Property="Margin" Value="0,0,0,16"/>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Padding" Value="9"/>
+            <Setter Property="Margin" Value="0,6,12,6"/>
+            <Setter Property="MinHeight" Value="34"/>
+        </Style>
+        <Style TargetType="ComboBox">
+            <Setter Property="Padding" Value="7"/>
+            <Setter Property="Margin" Value="0,6,12,6"/>
+            <Setter Property="MinHeight" Value="34"/>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Padding" Value="14,9"/>
+            <Setter Property="Margin" Value="0,0,10,0"/>
+            <Setter Property="MinHeight" Value="38"/>
+        </Style>
+        <Style TargetType="TabItem">
+            <Setter Property="Visibility" Value="Collapsed"/>
+        </Style>
+        <Style x:Key="PageHostTabControlStyle" TargetType="TabControl">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TabControl">
+                        <ContentPresenter ContentSource="SelectedContent"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Column="0" Background="{DynamicResource PanelBackground}" BorderBrush="{DynamicResource BorderBrushSoft}" BorderThickness="0,0,1,0" Padding="18">
+            <DockPanel LastChildFill="True">
+                <TextBlock DockPanel.Dock="Top" Text="Settings" FontSize="28" FontWeight="SemiBold" Margin="0,0,0,22"/>
+                <ListBox x:Name="SettingsNavList" SelectionChanged="SettingsNavList_SelectionChanged" BorderThickness="0" Background="Transparent" SelectedIndex="0">
+                    <ListBoxItem Content="General" Padding="12,10"/>
+                    <ListBoxItem Content="Scanning" Padding="12,10"/>
+                    <ListBoxItem Content="Storage Analysis" Padding="12,10"/>
+                    <ListBoxItem Content="Move Instead of Delete" Padding="12,10"/>
+                    <ListBoxItem Content="AI Analysis" Padding="12,10"/>
+                    <ListBoxItem Content="Safety" Padding="12,10"/>
+                    <ListBoxItem Content="Visualization" Padding="12,10"/>
+                    <ListBoxItem Content="Reports" Padding="12,10"/>
+                    <ListBoxItem Content="Advanced" Padding="12,10"/>
+                </ListBox>
+            </DockPanel>
+        </Border>
+
+        <Grid Grid.Column="1" Margin="28">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Margin="0,0,0,20">
+                <TextBlock x:Name="SettingsTitleTextBlock" Text="General" FontSize="30" FontWeight="SemiBold"/>
+                <TextBlock x:Name="SettingsSubtitleTextBlock" Text="Personalize the app experience." Foreground="{DynamicResource MutedTextBrush}" Margin="0,4,0,0"/>
+            </StackPanel>
+
+            <TabControl Grid.Row="1" x:Name="SettingsTabs" Style="{StaticResource PageHostTabControlStyle}">
+                <TabItem>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <StackPanel>
+                            <Border Style="{StaticResource SettingsCard}">
+                                <StackPanel>
+                                    <TextBlock Text="Appearance" FontSize="18" FontWeight="SemiBold"/>
+                                    <WrapPanel Margin="0,10,0,0">
+                                        <TextBlock Text="Theme" Width="160" VerticalAlignment="Center"/>
+                                        <ComboBox x:Name="ThemeComboBox" Width="180" SelectionChanged="ThemeComboBox_SelectionChanged">
+                                            <ComboBoxItem Content="System"/>
+                                            <ComboBoxItem Content="Light"/>
+                                            <ComboBoxItem Content="Dark"/>
+                                        </ComboBox>
+                                        <TextBlock Text="Language" Width="120" VerticalAlignment="Center"/>
+                                        <ComboBox x:Name="LanguageComboBox" Width="180">
+                                            <ComboBoxItem Content="English"/>
+                                        </ComboBox>
+                                    </WrapPanel>
+                                    <WrapPanel>
+                                        <TextBlock Text="Startup behavior" Width="160" VerticalAlignment="Center"/>
+                                        <ComboBox x:Name="StartupComboBox" Width="220">
+                                            <ComboBoxItem Content="Open dashboard"/>
+                                            <ComboBoxItem Content="Open scan page"/>
+                                            <ComboBoxItem Content="Restore last page"/>
+                                        </ComboBox>
+                                        <CheckBox x:Name="PortableModeCheckBox" Content="Portable mode" Margin="16,10,0,0"/>
+                                    </WrapPanel>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+
+                <TabItem>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <StackPanel>
+                            <Border Style="{StaticResource SettingsCard}">
+                                <StackPanel>
+                                    <TextBlock Text="Defaults" FontSize="18" FontWeight="SemiBold"/>
+                                    <WrapPanel Margin="0,10,0,0">
+                                        <TextBlock Text="Default scan type" Width="160" VerticalAlignment="Center"/>
+                                        <ComboBox x:Name="DefaultScanTypeComboBox" Width="180">
+                                            <ComboBoxItem Content="Single drive"/>
+                                            <ComboBoxItem Content="Multi-drive"/>
+                                            <ComboBoxItem Content="Folder"/>
+                                        </ComboBox>
+                                        <TextBlock Text="Single drive" Width="110" VerticalAlignment="Center"/>
+                                        <ComboBox x:Name="SingleDriveComboBox" Width="140"/>
+                                    </WrapPanel>
+                                    <TextBlock Text="Folder default"/>
+                                    <TextBox x:Name="FolderDefaultTextBox"/>
+                                </StackPanel>
+                            </Border>
+                            <Border Style="{StaticResource SettingsCard}">
+                                <StackPanel>
+                                    <TextBlock Text="Scan Locations and Exclusions" FontSize="18" FontWeight="SemiBold"/>
+                                    <TextBlock Text="Target drives" Margin="0,10,0,0"/>
+                                    <ListBox x:Name="TargetDrivesListBox" SelectionMode="Multiple" Height="110"/>
+                                    <Button Content="Use selected drives for common heavy locations" Click="UseSelectedDrives_Click" HorizontalAlignment="Left" Margin="0,12,0,12"/>
+                                    <TextBlock Text="Scan locations"/>
+                                    <TextBox x:Name="ScanLocationsTextBox" AcceptsReturn="True" TextWrapping="Wrap" Height="130"/>
+                                    <TextBlock Text="Scan exclusions"/>
+                                    <TextBox x:Name="ExclusionsTextBox" AcceptsReturn="True" TextWrapping="Wrap" Height="130"/>
+                                    <WrapPanel Margin="0,10,0,0">
+                                        <CheckBox x:Name="ScanHiddenFilesCheckBox" Content="Scan hidden files" Margin="0,0,20,8"/>
+                                        <CheckBox x:Name="ScanSystemFilesCheckBox" Content="Scan system files" Margin="0,0,20,8"/>
+                                        <CheckBox x:Name="ScanCompressedArchivesCheckBox" Content="Scan compressed archives" Margin="0,0,20,8"/>
+                                    </WrapPanel>
+                                    <WrapPanel>
+                                        <TextBlock Text="Duplicate detection" Width="160" VerticalAlignment="Center"/>
+                                        <ComboBox x:Name="DuplicateModeComboBox" Width="220">
+                                            <ComboBoxItem Content="Size only"/>
+                                            <ComboBoxItem Content="Size + hash"/>
+                                            <ComboBoxItem Content="Size + hash + content verification"/>
+                                        </ComboBox>
+                                    </WrapPanel>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+
+                <TabItem>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <StackPanel>
+                            <Border Style="{StaticResource SettingsCard}">
+                                <StackPanel>
+                                    <TextBlock Text="Recommendation Rules" FontSize="18" FontWeight="SemiBold"/>
+                                    <UniformGrid Columns="2" Margin="0,12,0,0">
+                                        <StackPanel>
+                                            <TextBlock Text="Low storage threshold GB"/>
+                                            <TextBox x:Name="LowStorageThresholdTextBox"/>
+                                        </StackPanel>
+                                        <StackPanel>
+                                            <TextBlock Text="Minimum file size MB"/>
+                                            <TextBox x:Name="MinimumFileSizeTextBox"/>
+                                        </StackPanel>
+                                        <StackPanel>
+                                            <TextBlock Text="File age threshold days"/>
+                                            <TextBox x:Name="FileAgeTextBox"/>
+                                        </StackPanel>
+                                        <StackPanel>
+                                            <TextBlock Text="Confidence threshold"/>
+                                            <TextBox x:Name="ConfidenceThresholdTextBox"/>
+                                        </StackPanel>
+                                        <StackPanel>
+                                            <TextBlock Text="Risk threshold"/>
+                                            <TextBox x:Name="RiskThresholdTextBox"/>
+                                        </StackPanel>
+                                    </UniformGrid>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+
+                <TabItem>
+                    <Border Style="{StaticResource SettingsCard}">
+                        <StackPanel>
+                            <TextBlock Text="Move Instead of Delete" FontSize="18" FontWeight="SemiBold"/>
+                            <TextBlock Text="Default destination"/>
+                            <TextBox x:Name="MoveDestinationTextBox"/>
+                            <CheckBox x:Name="PreserveStructureCheckBox" Content="Preserve folder structure" Margin="0,8"/>
+                            <CheckBox x:Name="VerifyFreeSpaceCheckBox" Content="Verify free space before move" Margin="0,8"/>
+                            <CheckBox x:Name="CopyInsteadCheckBox" Content="Copy instead of move" Margin="0,8"/>
+                        </StackPanel>
+                    </Border>
+                </TabItem>
+
+                <TabItem>
+                    <Border Style="{StaticResource SettingsCard}">
+                        <StackPanel>
+                            <TextBlock Text="AI Analysis" FontSize="18" FontWeight="SemiBold"/>
+                            <TextBlock Text="Cloud AI is available only after you provide an API key. Local rule-based explanations remain available without a key." TextWrapping="Wrap" Foreground="{DynamicResource MutedTextBrush}" Margin="0,4,0,12"/>
+                            <CheckBox x:Name="EnableAiCheckBox" Content="Enable AI analysis" Margin="0,8"/>
+                            <CheckBox x:Name="LocalAiCheckBox" Content="Local AI" Margin="0,8"/>
+                            <CheckBox x:Name="CloudAiCheckBox" Content="Cloud AI" Margin="0,8"/>
+                            <TextBlock Text="Cloud AI API key"/>
+                            <PasswordBox x:Name="AiApiKeyBox" Margin="0,6,12,6" Padding="9" MinHeight="34"/>
+                            <CheckBox x:Name="ExplainAutomaticallyCheckBox" Content="Explain recommendations automatically" Margin="0,8"/>
+                            <WrapPanel>
+                                <TextBlock Text="Recommendation aggressiveness" Width="210" VerticalAlignment="Center"/>
+                                <ComboBox x:Name="AggressivenessComboBox" Width="180">
+                                    <ComboBoxItem Content="Conservative"/>
+                                    <ComboBoxItem Content="Balanced"/>
+                                    <ComboBoxItem Content="Aggressive"/>
+                                </ComboBox>
+                            </WrapPanel>
+                        </StackPanel>
+                    </Border>
+                </TabItem>
+
+                <TabItem>
+                    <Border Style="{StaticResource SettingsCard}">
+                        <StackPanel>
+                            <TextBlock Text="Safety" FontSize="18" FontWeight="SemiBold"/>
+                            <CheckBox x:Name="DryRunCheckBox" Content="Dry-run mode" Margin="0,8"/>
+                            <WrapPanel>
+                                <TextBlock Text="Confirmation requirements" Width="210" VerticalAlignment="Center"/>
+                                <ComboBox x:Name="ConfirmationComboBox" Width="220">
+                                    <ComboBoxItem Content="Always confirm"/>
+                                    <ComboBoxItem Content="Confirm risky actions"/>
+                                    <ComboBoxItem Content="Confirm once per session"/>
+                                </ComboBox>
+                            </WrapPanel>
+                            <CheckBox x:Name="RestorePointCheckBox" Content="Restore point creation" Margin="0,8"/>
+                            <CheckBox x:Name="AuditLoggingCheckBox" Content="Audit logging" Margin="0,8"/>
+                            <CheckBox x:Name="DeletionSafeguardsCheckBox" Content="Deletion safeguards" Margin="0,8"/>
+                        </StackPanel>
+                    </Border>
+                </TabItem>
+
+                <TabItem>
+                    <Border Style="{StaticResource SettingsCard}">
+                        <StackPanel>
+                            <TextBlock Text="Visualization" FontSize="18" FontWeight="SemiBold"/>
+                            <WrapPanel>
+                                <TextBlock Text="Default chart type" Width="180" VerticalAlignment="Center"/>
+                                <ComboBox x:Name="ChartTypeComboBox" Width="180">
+                                    <ComboBoxItem Content="Treemap"/>
+                                    <ComboBoxItem Content="Bar chart"/>
+                                    <ComboBoxItem Content="Pie chart"/>
+                                </ComboBox>
+                            </WrapPanel>
+                            <TextBlock Text="Treemap settings"/>
+                            <TextBox x:Name="TreemapSettingsTextBox"/>
+                            <TextBlock Text="Dashboard widgets"/>
+                            <TextBox x:Name="DashboardWidgetsTextBox"/>
+                        </StackPanel>
+                    </Border>
+                </TabItem>
+
+                <TabItem>
+                    <Border Style="{StaticResource SettingsCard}">
+                        <StackPanel>
+                            <TextBlock Text="Reports" FontSize="18" FontWeight="SemiBold"/>
+                            <TextBlock Text="Export formats"/>
+                            <TextBox x:Name="ExportFormatsTextBox"/>
+                            <CheckBox x:Name="AutomaticReportsCheckBox" Content="Automatic report generation" Margin="0,8"/>
+                            <TextBlock Text="Report retention days"/>
+                            <TextBox x:Name="ReportRetentionTextBox"/>
+                        </StackPanel>
+                    </Border>
+                </TabItem>
+
+                <TabItem>
+                    <Border Style="{StaticResource SettingsCard}">
+                        <StackPanel>
+                            <TextBlock Text="Advanced" FontSize="18" FontWeight="SemiBold"/>
+                            <TextBlock Text="Thread count"/>
+                            <TextBox x:Name="ThreadCountTextBox"/>
+                            <TextBlock Text="Cache location"/>
+                            <TextBox x:Name="CacheLocationTextBox"/>
+                            <TextBlock Text="Database location"/>
+                            <TextBox x:Name="DatabaseLocationTextBox"/>
+                            <CheckBox x:Name="DebugLoggingCheckBox" Content="Debug logging" Margin="0,8"/>
+                        </StackPanel>
+                    </Border>
+                </TabItem>
+            </TabControl>
+
+            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,18,0,0">
+                <Button Content="Cancel" Click="Cancel_Click"/>
+                <Button Content="Save" Click="Save_Click" Background="{DynamicResource AccentBrush}" Foreground="White"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>
